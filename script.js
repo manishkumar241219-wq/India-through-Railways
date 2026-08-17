@@ -1,6 +1,6 @@
 /* =========================================================
    INDIA THROUGH THE RAILWAY WINDOW
-   COMMUNITY WEBSITE SCRIPT
+   MAIN JAVASCRIPT
 ========================================================= */
 
 
@@ -9,15 +9,12 @@
 ========================================================= */
 
 const GOOGLE_SHEET_API =
-    "https://script.google.com/macros/s/AKfycbzkbY4cW1UH9o-du7Z_SquboB_UnMdzy1ORr5QBdrFpAUjtP_xCnYnwIA3QXUfUDIibWw/exec";
+    "https://script.google.com/macros/s/AKfycbwCGGmd83yh-OHlrEj4l1tmyxf-nufILvlM3LBKmnf92n6be_G-XOgIvaOEsPQVXDIPRQ/exec";
 
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
-
-
-/* ---------- Explore ---------- */
 
 const exploreButton =
     document.getElementById("exploreButton");
@@ -28,9 +25,6 @@ const exploreModal =
 const closeExplore =
     document.getElementById("closeExplore");
 
-
-/* ---------- Build With Us ---------- */
-
 const collaborateButton =
     document.getElementById("collaborateButton");
 
@@ -40,9 +34,6 @@ const collaborationModal =
 const closeCollaboration =
     document.getElementById("closeCollaboration");
 
-
-/* ---------- Add Website ---------- */
-
 const addProjectButton =
     document.getElementById("addProjectButton");
 
@@ -51,9 +42,6 @@ const addWebsiteModal =
 
 const closeAddWebsite =
     document.getElementById("closeAddWebsite");
-
-
-/* ---------- Form ---------- */
 
 const websiteForm =
     document.getElementById("websiteForm");
@@ -70,83 +58,68 @@ const websiteURLInput =
 const formError =
     document.getElementById("formError");
 
-
-/* ---------- Creator List ---------- */
-
 const creatorList =
     document.getElementById("creatorList");
-
-
-/* ---------- Page ---------- */
 
 const page =
     document.querySelector(".page");
 
-
-/* ---------- Place Cards ---------- */
-
 const placeCards =
     document.querySelectorAll(".place-card");
 
+const backgroundVideo =
+    document.getElementById("backgroundVideo");
+
+const soundToggle =
+    document.getElementById("soundToggle");
+
+
+/*
+ * IMPORTANT:
+ * This was missing from your previous JS.
+ */
+
+const weatherButton =
+    document.getElementById("weatherButton");
+
+const weatherVideoA =
+    document.getElementById("weatherVideoA");
+
+const weatherVideoB =
+    document.getElementById("weatherVideoB");
 
 
 /* =========================================================
    DEFAULT PROJECTS
 ========================================================= */
 
-/*
- * These are your own projects.
- *
- * Community projects will now come from
- * Google Sheets.
- */
-
 const defaultProjects = [
 
     {
         id: "manish-original",
-
         name: "Manish Kumar",
-
-        description:
-            "India Through the Railway Window",
-
+        description: "India Through the Railway Window",
         url: "#",
-
         likes: 1248,
-
         category: "Original"
-
     },
-
 
     {
         id: "roadways-music",
-
         name: "Manish Kumar",
-
-        description:
-            "Roadways Music",
-
+        description: "Roadways Music",
         url:
             "https://manishkumar241219-wq.github.io/music-player-deploy/",
-
         likes: 342,
-
         category: "Music"
-
     }
 
 ];
 
 
-
 /* =========================================================
-   EXPLORE UTTARAKHAND
+   EXPLORE
 ========================================================= */
-
-
-/* ---------- Open Explore ---------- */
 
 if (exploreButton) {
 
@@ -154,9 +127,11 @@ if (exploreButton) {
         "click",
         function () {
 
-            exploreModal.classList.add(
-                "active"
-            );
+            if (!exploreModal) {
+                return;
+            }
+
+            exploreModal.classList.add("active");
 
             document.body.style.overflow =
                 "hidden";
@@ -167,20 +142,13 @@ if (exploreButton) {
 }
 
 
-
-/* ---------- Close Explore ---------- */
-
 function closeExploreModal() {
 
     if (!exploreModal) {
         return;
     }
 
-
-    exploreModal.classList.remove(
-        "active"
-    );
-
+    exploreModal.classList.remove("active");
 
     document.body.style.overflow = "";
 
@@ -197,23 +165,19 @@ if (closeExplore) {
 }
 
 
-
 /* =========================================================
    BUILD WITH US
 ========================================================= */
-
-
-/*
- * When the user opens Build With Us,
- * fetch the latest APPROVED projects
- * from Google Sheets.
- */
 
 if (collaborateButton) {
 
     collaborateButton.addEventListener(
         "click",
         async function () {
+
+            if (!collaborationModal) {
+                return;
+            }
 
             collaborationModal.classList.add(
                 "active"
@@ -222,17 +186,7 @@ if (collaborateButton) {
             document.body.style.overflow =
                 "hidden";
 
-
-            /*
-             * Show loading state.
-             */
-
             showProjectsLoading();
-
-
-            /*
-             * Load projects from Google Sheet.
-             */
 
             await loadProjects();
 
@@ -242,25 +196,17 @@ if (collaborateButton) {
 }
 
 
-
-/* =========================================================
-   CLOSE BUILD WITH US
-========================================================= */
-
 function closeCollaborationModal() {
 
     if (!collaborationModal) {
         return;
     }
 
-
     collaborationModal.classList.remove(
         "active"
     );
 
-
-    document.body.style.overflow =
-        "";
+    document.body.style.overflow = "";
 
 }
 
@@ -275,9 +221,8 @@ if (closeCollaboration) {
 }
 
 
-
 /* =========================================================
-   OPEN ADD WEBSITE
+   ADD WEBSITE
 ========================================================= */
 
 if (addProjectButton) {
@@ -286,41 +231,33 @@ if (addProjectButton) {
         "click",
         function () {
 
-            /*
-             * Close Build With Us.
-             */
+            if (collaborationModal) {
 
-            collaborationModal.classList.remove(
-                "active"
-            );
-
-
-            /*
-             * Reset form.
-             */
-
-            if (websiteForm) {
-
-                websiteForm.reset();
+                collaborationModal.classList.remove(
+                    "active"
+                );
 
             }
 
+            if (websiteForm) {
+                websiteForm.reset();
+            }
 
             if (formError) {
 
-                formError.textContent =
-                    "";
+                formError.textContent = "";
+
+                formError.style.color = "";
 
             }
 
+            if (addWebsiteModal) {
 
-            /*
-             * Open submission modal.
-             */
+                addWebsiteModal.classList.add(
+                    "active"
+                );
 
-            addWebsiteModal.classList.add(
-                "active"
-            );
+            }
 
         }
     );
@@ -328,31 +265,23 @@ if (addProjectButton) {
 }
 
 
-
-/* =========================================================
-   CLOSE ADD WEBSITE
-========================================================= */
-
 function closeAddWebsiteModal() {
 
     if (!addWebsiteModal) {
         return;
     }
 
-
     addWebsiteModal.classList.remove(
         "active"
     );
 
+    if (collaborationModal) {
 
-    /*
-     * Return to Build With Us.
-     */
+        collaborationModal.classList.add(
+            "active"
+        );
 
-    collaborationModal.classList.add(
-        "active"
-    );
-
+    }
 
     document.body.style.overflow =
         "hidden";
@@ -370,9 +299,8 @@ if (closeAddWebsite) {
 }
 
 
-
 /* =========================================================
-   SUBMIT WEBSITE TO GOOGLE SHEET
+   SUBMIT WEBSITE
 ========================================================= */
 
 if (websiteForm) {
@@ -384,83 +312,73 @@ if (websiteForm) {
             event.preventDefault();
 
 
-            /*
-             * Clear old error.
-             */
+            if (formError) {
 
-            formError.textContent =
-                "";
+                formError.textContent = "";
 
+                formError.style.color = "";
 
-            /* =================================================
-               GET FORM VALUES
-            ================================================= */
+            }
+
 
             const name =
-                creatorNameInput.value.trim();
+                creatorNameInput
+                    ? creatorNameInput.value.trim()
+                    : "";
 
 
             const description =
-                websiteDescriptionInput.value.trim();
+                websiteDescriptionInput
+                    ? websiteDescriptionInput.value.trim()
+                    : "";
 
 
             let url =
-                websiteURLInput.value.trim();
-
+                websiteURLInput
+                    ? websiteURLInput.value.trim()
+                    : "";
 
 
             /* =================================================
-               VALIDATE NAME
+               VALIDATION
             ================================================= */
 
-            if (
-                name.length < 2
-            ) {
+            if (name.length < 2) {
 
-                formError.textContent =
-                    "Please enter your name.";
+                showFormError(
+                    "Please enter your name."
+                );
 
                 return;
 
             }
 
 
+            if (description.length < 5) {
 
-            /* =================================================
-               VALIDATE DESCRIPTION
-            ================================================= */
-
-            if (
-                description.length < 5
-            ) {
-
-                formError.textContent =
-                    "Please describe your website.";
+                showFormError(
+                    "Please describe your website."
+                );
 
                 return;
 
             }
 
-
-
-            /* =================================================
-               VALIDATE URL
-            ================================================= */
 
             if (!url) {
 
-                formError.textContent =
-                    "Please enter your website URL.";
+                showFormError(
+                    "Please enter your website URL."
+                );
 
                 return;
 
             }
 
 
-
-            /* =================================================
-               ADD HTTPS IF MISSING
-            ================================================= */
+            /*
+             * Add https automatically.
+             */
 
             if (
                 !url.startsWith("http://") &&
@@ -473,10 +391,9 @@ if (websiteForm) {
             }
 
 
-
-            /* =================================================
-               VALIDATE URL FORMAT
-            ================================================= */
+            /*
+             * Validate URL.
+             */
 
             try {
 
@@ -485,8 +402,10 @@ if (websiteForm) {
 
 
                 if (
-                    parsedURL.protocol !== "http:" &&
-                    parsedURL.protocol !== "https:"
+                    parsedURL.protocol !==
+                        "http:" &&
+                    parsedURL.protocol !==
+                        "https:"
                 ) {
 
                     throw new Error(
@@ -499,17 +418,17 @@ if (websiteForm) {
 
             catch (error) {
 
-                formError.textContent =
-                    "Please enter a valid website URL.";
+                showFormError(
+                    "Please enter a valid website URL."
+                );
 
                 return;
 
             }
 
 
-
             /* =================================================
-               SHOW SUBMITTING STATE
+               BUTTON
             ================================================= */
 
             const submitButton =
@@ -535,82 +454,40 @@ if (websiteForm) {
             }
 
 
-
             /* =================================================
-               SEND TO GOOGLE APPS SCRIPT
+               SEND TO GOOGLE SHEETS
+               JSONP VERSION
             ================================================= */
 
             try {
 
-                /*
-                 * URLSearchParams creates normal
-                 * form data which Apps Script
-                 * can read through e.parameter.
-                 */
-
-                const formData =
-                    new URLSearchParams();
-
-
-                formData.append(
-                    "name",
-                    name
-                );
-
-
-                formData.append(
-                    "description",
-                    description
-                );
-
-
-                formData.append(
-                    "url",
-                    url
-                );
-
-
-
-                /*
-                 * Send the data to Google Apps Script.
-                 */
-
-                const response =
-                    await fetch(
-                        GOOGLE_SHEET_API,
-                        {
-                            method: "POST",
-
-                            body: formData
-                        }
+                const result =
+                    await submitToGoogleSheets(
+                        name,
+                        description,
+                        url
                     );
 
 
+                console.log(
+                    "Google Sheets response:",
+                    result
+                );
 
-                /* =================================================
-                   READ RESPONSE
-                ================================================= */
-
-                const result =
-                    await response.json();
-
-
-
-                /* =================================================
-                   CHECK RESULT
-                ================================================= */
 
                 if (
+                    !result ||
                     !result.success
                 ) {
 
                     throw new Error(
-                        result.message ||
-                        "Submission failed."
+                        result &&
+                        result.message
+                            ? result.message
+                            : "Submission failed."
                     );
 
                 }
-
 
 
                 /* =================================================
@@ -620,48 +497,48 @@ if (websiteForm) {
                 websiteForm.reset();
 
 
-                /*
-                 * Show success message.
-                 */
+                if (formError) {
 
-                formError.textContent =
-                    "Submitted successfully! Your website will appear after approval.";
+                    formError.textContent =
+                        "Submitted successfully! Your website will appear after approval.";
 
+                    formError.style.color =
+                        "rgba(190,255,210,0.85)";
 
-                formError.style.color =
-                    "rgba(190,255,210,0.85)";
+                }
 
-
-
-                /*
-                 * Wait a moment, then
-                 * return to Build With Us.
-                 */
 
                 setTimeout(
                     async function () {
 
-                        addWebsiteModal.classList.remove(
-                            "active"
-                        );
+                        if (addWebsiteModal) {
+
+                            addWebsiteModal.classList.remove(
+                                "active"
+                            );
+
+                        }
 
 
-                        collaborationModal.classList.add(
-                            "active"
-                        );
+                        if (collaborationModal) {
+
+                            collaborationModal.classList.add(
+                                "active"
+                            );
+
+                        }
 
 
-                        formError.textContent =
-                            "";
+                        if (formError) {
 
+                            formError.textContent =
+                                "";
 
-                        formError.style.color =
-                            "";
+                            formError.style.color =
+                                "";
 
+                        }
 
-                        /*
-                         * Refresh projects.
-                         */
 
                         await loadProjects();
 
@@ -672,10 +549,6 @@ if (websiteForm) {
             }
 
 
-            /* =================================================
-               ERROR
-            ================================================= */
-
             catch (error) {
 
                 console.error(
@@ -684,28 +557,25 @@ if (websiteForm) {
                 );
 
 
-                formError.textContent =
-                    "Could not submit your website. Please try again.";
-
-
-                formError.style.color =
-                    "#ffb4b4";
+                showFormError(
+                    error.message ||
+                    "Could not submit your website. Please try again."
+                );
 
             }
 
 
+            finally {
 
-            /* =================================================
-               RESTORE BUTTON
-            ================================================= */
+                if (submitButton) {
 
-            if (submitButton) {
+                    submitButton.disabled =
+                        false;
 
-                submitButton.disabled =
-                    false;
+                    submitButton.innerHTML =
+                        originalButtonText;
 
-                submitButton.innerHTML =
-                    originalButtonText;
+                }
 
             }
 
@@ -715,58 +585,238 @@ if (websiteForm) {
 }
 
 
+/* =========================================================
+   GOOGLE SHEETS SUBMISSION
+   JSONP
+========================================================= */
+
+function submitToGoogleSheets(
+    name,
+    description,
+    url
+) {
+
+    return new Promise(
+        function (resolve, reject) {
+
+            const callbackName =
+                "googleSheetCallback_" +
+                Date.now() +
+                "_" +
+                Math.floor(
+                    Math.random() * 100000
+                );
+
+
+            const params =
+                new URLSearchParams();
+
+
+            params.append(
+                "action",
+                "submit"
+            );
+
+
+            params.append(
+                "name",
+                name
+            );
+
+
+            params.append(
+                "description",
+                description
+            );
+
+
+            params.append(
+                "url",
+                url
+            );
+
+
+            params.append(
+                "callback",
+                callbackName
+            );
+
+
+            const requestURL =
+                GOOGLE_SHEET_API +
+                "?" +
+                params.toString();
+
+
+            console.log(
+                "Google Sheets submission:",
+                requestURL
+            );
+
+
+            const script =
+                document.createElement(
+                    "script"
+                );
+
+
+            let completed =
+                false;
+
+
+            const cleanup =
+                function () {
+
+                    if (script) {
+                        script.remove();
+                    }
+
+                    try {
+
+                        delete window[
+                            callbackName
+                        ];
+
+                    }
+
+                    catch (error) {
+
+                        window[
+                            callbackName
+                        ] = undefined;
+
+                    }
+
+                };
+
+
+            window[callbackName] =
+                function (result) {
+
+                    if (completed) {
+                        return;
+                    }
+
+                    completed = true;
+
+                    clearTimeout(
+                        timeout
+                    );
+
+                    cleanup();
+
+                    resolve(result);
+
+                };
+
+
+            script.onerror =
+                function () {
+
+                    if (completed) {
+                        return;
+                    }
+
+                    completed = true;
+
+                    clearTimeout(
+                        timeout
+                    );
+
+                    cleanup();
+
+                    reject(
+                        new Error(
+                            "Could not connect to Google Sheets."
+                        )
+                    );
+
+                };
+
+
+            const timeout =
+                setTimeout(
+                    function () {
+
+                        if (completed) {
+                            return;
+                        }
+
+                        completed = true;
+
+                        cleanup();
+
+                        reject(
+                            new Error(
+                                "Google Sheets request timed out."
+                            )
+                        );
+
+                    },
+                    15000
+                );
+
+
+            script.src =
+                requestURL;
+
+
+            document.body.appendChild(
+                script
+            );
+
+        }
+    );
+
+}
+
 
 /* =========================================================
-   LOAD PROJECTS FROM GOOGLE SHEET
+   FORM ERROR
+========================================================= */
+
+function showFormError(
+    message
+) {
+
+    if (!formError) {
+        return;
+    }
+
+    formError.textContent =
+        message;
+
+    formError.style.color =
+        "#ffb4b4";
+
+}
+
+
+/* =========================================================
+   LOAD PROJECTS
+   JSONP VERSION
 ========================================================= */
 
 async function loadProjects() {
 
     try {
 
-        /*
-         * Fetch data from Apps Script.
-         */
+        console.log(
+            "Loading projects..."
+        );
 
-        const response =
-            await fetch(
-                GOOGLE_SHEET_API,
-                {
-                    method: "GET",
-                    cache: "no-store"
-                }
-            );
-
-
-        /*
-         * Check HTTP response.
-         */
-
-        if (!response.ok) {
-
-            throw new Error(
-                "API request failed."
-            );
-
-        }
-
-
-        /*
-         * Convert response to JSON.
-         */
 
         const data =
-            await response.json();
+            await loadProjectsFromGoogleSheets();
 
 
+        console.log(
+            "Projects received:",
+            data
+        );
 
-        /* =================================================
-           CHECK API RESPONSE
-        ================================================= */
 
-        if (
-            !data.success
-        ) {
+        if (!data.success) {
 
             throw new Error(
                 data.message ||
@@ -776,30 +826,42 @@ async function loadProjects() {
         }
 
 
-
-        /* =================================================
-           COMBINE DEFAULT + APPROVED
-        ================================================= */
-
         const communityProjects =
             Array.isArray(data.projects)
                 ? data.projects
                 : [];
 
 
+        const defaultIDs =
+            new Set(
+                defaultProjects.map(
+                    function (project) {
+                        return project.id;
+                    }
+                )
+            );
+
+
+        const filteredCommunityProjects =
+            communityProjects.filter(
+                function (project) {
+
+                    return !defaultIDs.has(
+                        project.id
+                    );
+
+                }
+            );
+
+
         const allProjects = [
 
             ...defaultProjects,
 
-            ...communityProjects
+            ...filteredCommunityProjects
 
         ];
 
-
-
-        /* =================================================
-           RENDER
-        ================================================= */
 
         renderProjects(
             allProjects
@@ -816,11 +878,6 @@ async function loadProjects() {
         );
 
 
-        /*
-         * If the API fails, still show
-         * your own projects.
-         */
-
         renderProjects(
             defaultProjects
         );
@@ -830,9 +887,166 @@ async function loadProjects() {
 }
 
 
+/* =========================================================
+   LOAD PROJECTS FROM GOOGLE SHEETS
+   JSONP
+========================================================= */
+
+function loadProjectsFromGoogleSheets() {
+
+    return new Promise(
+        function (resolve, reject) {
+
+            const callbackName =
+                "googleProjectsCallback_" +
+                Date.now() +
+                "_" +
+                Math.floor(
+                    Math.random() * 100000
+                );
+
+
+            const params =
+                new URLSearchParams();
+
+
+            params.append(
+                "callback",
+                callbackName
+            );
+
+
+            const requestURL =
+                GOOGLE_SHEET_API +
+                "?" +
+                params.toString();
+
+
+            console.log(
+                "Loading Google Sheets:",
+                requestURL
+            );
+
+
+            const script =
+                document.createElement(
+                    "script"
+                );
+
+
+            let completed =
+                false;
+
+
+            const cleanup =
+                function () {
+
+                    if (script) {
+                        script.remove();
+                    }
+
+                    try {
+
+                        delete window[
+                            callbackName
+                        ];
+
+                    }
+
+                    catch (error) {
+
+                        window[
+                            callbackName
+                        ] = undefined;
+
+                    }
+
+                };
+
+
+            window[callbackName] =
+                function (result) {
+
+                    if (completed) {
+                        return;
+                    }
+
+                    completed = true;
+
+                    clearTimeout(
+                        timeout
+                    );
+
+                    cleanup();
+
+                    resolve(result);
+
+                };
+
+
+            script.onerror =
+                function () {
+
+                    if (completed) {
+                        return;
+                    }
+
+                    completed = true;
+
+                    clearTimeout(
+                        timeout
+                    );
+
+                    cleanup();
+
+                    reject(
+                        new Error(
+                            "Could not load Google Sheets data."
+                        )
+                    );
+
+                };
+
+
+            const timeout =
+                setTimeout(
+                    function () {
+
+                        if (completed) {
+                            return;
+                        }
+
+                        completed = true;
+
+                        cleanup();
+
+                        reject(
+                            new Error(
+                                "Google Sheets request timed out."
+                            )
+                        );
+
+                    },
+                    15000
+                );
+
+
+            script.src =
+                requestURL;
+
+
+            document.body.appendChild(
+                script
+            );
+
+        }
+    );
+
+}
+
 
 /* =========================================================
-   LOADING STATE
+   LOADING
 ========================================================= */
 
 function showProjectsLoading() {
@@ -846,10 +1060,10 @@ function showProjectsLoading() {
 
         <div
             style="
-                padding: 25px;
-                text-align: center;
-                font-size: 10px;
-                color: rgba(255,255,255,0.50);
+                padding:25px;
+                text-align:center;
+                font-size:10px;
+                color:rgba(255,255,255,0.50);
             "
         >
             Loading community projects...
@@ -858,7 +1072,6 @@ function showProjectsLoading() {
     `;
 
 }
-
 
 
 /* =========================================================
@@ -874,18 +1087,8 @@ function renderProjects(
     }
 
 
-    /*
-     * Clear existing cards.
-     */
+    creatorList.innerHTML = "";
 
-    creatorList.innerHTML =
-        "";
-
-
-
-    /*
-     * If there are no projects.
-     */
 
     if (
         !projects ||
@@ -896,10 +1099,10 @@ function renderProjects(
 
             <div
                 style="
-                    padding: 25px;
-                    text-align: center;
-                    font-size: 10px;
-                    color: rgba(255,255,255,0.50);
+                    padding:25px;
+                    text-align:center;
+                    font-size:10px;
+                    color:rgba(255,255,255,0.50);
                 "
             >
                 No community projects yet.
@@ -911,11 +1114,6 @@ function renderProjects(
 
     }
 
-
-
-    /*
-     * Create cards.
-     */
 
     projects.forEach(
         function (project) {
@@ -936,18 +1134,13 @@ function renderProjects(
 }
 
 
-
 /* =========================================================
-   CREATE CREATOR CARD
+   CREATE PROJECT CARD
 ========================================================= */
 
 function createProjectCard(
     project
 ) {
-
-    /*
-     * Create button.
-     */
 
     const card =
         document.createElement(
@@ -958,7 +1151,6 @@ function createProjectCard(
     card.className =
         "creator-card";
 
-
     card.type =
         "button";
 
@@ -966,15 +1158,9 @@ function createProjectCard(
     card.dataset.url =
         project.url;
 
-
     card.dataset.name =
         project.name;
 
-
-
-    /* =================================================
-       AVATAR
-    ================================================= */
 
     const avatar =
         document.createElement(
@@ -992,11 +1178,6 @@ function createProjectCard(
         );
 
 
-
-    /* =================================================
-       CREATOR INFO
-    ================================================= */
-
     const info =
         document.createElement(
             "div"
@@ -1006,9 +1187,6 @@ function createProjectCard(
     info.className =
         "creator-info";
 
-
-
-    /* ---------- Name ---------- */
 
     const name =
         document.createElement(
@@ -1020,9 +1198,6 @@ function createProjectCard(
         project.name;
 
 
-
-    /* ---------- Description ---------- */
-
     const description =
         document.createElement(
             "p"
@@ -1033,11 +1208,6 @@ function createProjectCard(
         project.description;
 
 
-
-    /* =================================================
-       META
-    ================================================= */
-
     const meta =
         document.createElement(
             "div"
@@ -1047,9 +1217,6 @@ function createProjectCard(
     meta.className =
         "creator-meta";
 
-
-
-    /* ---------- Likes ---------- */
 
     const likes =
         document.createElement(
@@ -1068,9 +1235,6 @@ function createProjectCard(
         );
 
 
-
-    /* ---------- Category ---------- */
-
     const category =
         document.createElement(
             "span"
@@ -1079,7 +1243,6 @@ function createProjectCard(
 
     category.textContent =
         project.category;
-
 
 
     meta.appendChild(
@@ -1091,11 +1254,6 @@ function createProjectCard(
         category
     );
 
-
-
-    /* =================================================
-       ADD CREATOR INFORMATION
-    ================================================= */
 
     info.appendChild(
         name
@@ -1112,11 +1270,6 @@ function createProjectCard(
     );
 
 
-
-    /* =================================================
-       ARROW
-    ================================================= */
-
     const arrow =
         document.createElement(
             "div"
@@ -1130,11 +1283,6 @@ function createProjectCard(
     arrow.textContent =
         "→";
 
-
-
-    /* =================================================
-       ADD TO CARD
-    ================================================= */
 
     card.appendChild(
         avatar
@@ -1151,18 +1299,9 @@ function createProjectCard(
     );
 
 
-
-    /* =================================================
-       CLICK CARD
-    ================================================= */
-
     card.addEventListener(
         "click",
         function () {
-
-            /*
-             * No URL.
-             */
 
             if (
                 !project.url ||
@@ -1173,10 +1312,6 @@ function createProjectCard(
 
             }
 
-
-            /*
-             * Open website.
-             */
 
             openCreatorWebsite(
                 project.url
@@ -1191,7 +1326,6 @@ function createProjectCard(
 }
 
 
-
 /* =========================================================
    FORMAT NUMBER
 ========================================================= */
@@ -1201,7 +1335,8 @@ function formatNumber(
 ) {
 
     if (
-        typeof number !== "number"
+        typeof number !==
+        "number"
     ) {
 
         number =
@@ -1217,9 +1352,8 @@ function formatNumber(
 }
 
 
-
 /* =========================================================
-   GET INITIALS
+   INITIALS
 ========================================================= */
 
 function getInitials(
@@ -1227,9 +1361,7 @@ function getInitials(
 ) {
 
     if (!name) {
-
         return "??";
-
     }
 
 
@@ -1239,14 +1371,7 @@ function getInitials(
             .split(/\s+/);
 
 
-
-    /*
-     * One-word name.
-     */
-
-    if (
-        words.length === 1
-    ) {
+    if (words.length === 1) {
 
         return words[0]
             .substring(0, 2)
@@ -1255,20 +1380,17 @@ function getInitials(
     }
 
 
-
-    /*
-     * Multiple-word name.
-     */
-
     return (
+
         words[0].charAt(0) +
+
         words[
             words.length - 1
         ].charAt(0)
+
     ).toUpperCase();
 
 }
-
 
 
 /* =========================================================
@@ -1279,10 +1401,6 @@ function openCreatorWebsite(
     url
 ) {
 
-    /*
-     * Close community modal.
-     */
-
     if (collaborationModal) {
 
         collaborationModal.classList.remove(
@@ -1292,10 +1410,6 @@ function openCreatorWebsite(
     }
 
 
-    /*
-     * Start fade.
-     */
-
     if (page) {
 
         page.classList.add(
@@ -1304,10 +1418,6 @@ function openCreatorWebsite(
 
     }
 
-
-    /*
-     * Navigate in same tab.
-     */
 
     setTimeout(
         function () {
@@ -1320,7 +1430,6 @@ function openCreatorWebsite(
     );
 
 }
-
 
 
 /* =========================================================
@@ -1353,9 +1462,8 @@ placeCards.forEach(
 );
 
 
-
 /* =========================================================
-   CLICK OUTSIDE EXPLORE MODAL
+   CLICK OUTSIDE MODALS
 ========================================================= */
 
 if (exploreModal) {
@@ -1379,11 +1487,6 @@ if (exploreModal) {
 }
 
 
-
-/* =========================================================
-   CLICK OUTSIDE COMMUNITY MODAL
-========================================================= */
-
 if (collaborationModal) {
 
     collaborationModal.addEventListener(
@@ -1404,11 +1507,6 @@ if (collaborationModal) {
 
 }
 
-
-
-/* =========================================================
-   CLICK OUTSIDE ADD WEBSITE MODAL
-========================================================= */
 
 if (addWebsiteModal) {
 
@@ -1431,7 +1529,6 @@ if (addWebsiteModal) {
 }
 
 
-
 /* =========================================================
    ESCAPE KEY
 ========================================================= */
@@ -1441,16 +1538,14 @@ document.addEventListener(
     function (event) {
 
         if (
-            event.key !== "Escape"
+            event.key !==
+            "Escape"
         ) {
 
             return;
 
         }
 
-
-
-        /* ---------- Add Website ---------- */
 
         if (
             addWebsiteModal &&
@@ -1466,9 +1561,6 @@ document.addEventListener(
         }
 
 
-
-        /* ---------- Community ---------- */
-
         if (
             collaborationModal &&
             collaborationModal.classList.contains(
@@ -1482,9 +1574,6 @@ document.addEventListener(
 
         }
 
-
-
-        /* ---------- Explore ---------- */
 
         if (
             exploreModal &&
@@ -1501,19 +1590,670 @@ document.addEventListener(
 );
 
 
-
 /* =========================================================
-   INITIAL LOAD
+   WEATHER VIDEO SYSTEM
+=========================================================
+
+   ORDER:
+
+   1. Background
+   2. Rain
+   3. Night
+   4. Background
+   5. Rain
+   6. Night
+   ...
+
 ========================================================= */
 
+
+/* =========================================================
+   VIDEO FILES
+========================================================= */
+
+const weatherVideoFiles = [
+
+    "assets/background.mp4",
+
+    "assets/Rain.mp4",
+
+    "assets/Night.mp4"
+
+];
+
+
+/* =========================================================
+   WEATHER STATE
+========================================================= */
+
+let weatherIndex = 0;
+
+let activeWeatherVideo =
+    weatherVideoA;
+
+let nextWeatherVideo =
+    weatherVideoB;
+
+let weatherIsChanging =
+    false;
+
+
 /*
- * We intentionally do NOT load the community
- * projects immediately.
- *
- * They are loaded when the user clicks
- * "Build with us".
+ * Whether the user has enabled sound.
  */
 
-console.log(
-    "India Through the Railway Window loaded."
+let weatherSoundEnabled =
+    false;
+
+
+/* =========================================================
+   PREPARE VIDEO ELEMENT
+========================================================= */
+
+function configureWeatherVideo(
+    video,
+    src
+) {
+
+    if (!video) {
+        return;
+    }
+
+
+    video.pause();
+
+
+    video.classList.remove(
+        "active"
+    );
+
+
+    video.src =
+        src;
+
+
+    video.loop =
+        true;
+
+
+    video.playsInline =
+        true;
+
+
+    video.preload =
+        "auto";
+
+
+    /*
+     * Start muted because browsers
+     * block autoplay with sound.
+     */
+
+    video.muted =
+        true;
+
+
+    video.load();
+
+}
+
+
+/* =========================================================
+   START DEFAULT WEATHER VIDEO
+========================================================= */
+
+function startWeatherVideo() {
+
+    if (!activeWeatherVideo) {
+        return;
+    }
+
+
+    configureWeatherVideo(
+        activeWeatherVideo,
+        weatherVideoFiles[0]
+    );
+
+
+    weatherIndex =
+        0;
+
+
+    activeWeatherVideo.classList.add(
+        "active"
+    );
+
+
+    const playVideo =
+        function () {
+
+            activeWeatherVideo
+                .play()
+                .catch(
+                    function (error) {
+
+                        console.log(
+                            "Video autoplay:",
+                            error
+                        );
+
+                    }
+                );
+
+        };
+
+
+    if (
+        activeWeatherVideo.readyState >=
+        2
+    ) {
+
+        playVideo();
+
+    }
+
+    else {
+
+        activeWeatherVideo.addEventListener(
+            "loadeddata",
+            playVideo,
+            {
+                once: true
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ENABLE SOUND FOR CURRENT VIDEO
+========================================================= */
+
+function enableWeatherSound() {
+
+    weatherSoundEnabled =
+        true;
+
+
+    if (!activeWeatherVideo) {
+        return;
+    }
+
+
+    activeWeatherVideo.muted =
+        false;
+
+
+    activeWeatherVideo.volume =
+        0.65;
+
+
+    activeWeatherVideo
+        .play()
+        .catch(
+            function (error) {
+
+                console.log(
+                    "Could not start video sound:",
+                    error
+                );
+
+            }
+        );
+
+
+    updateSoundButton();
+
+}
+
+
+/* =========================================================
+   DISABLE WEATHER SOUND
+========================================================= */
+
+function disableWeatherSound() {
+
+    weatherSoundEnabled =
+        false;
+
+
+    if (activeWeatherVideo) {
+
+        activeWeatherVideo.muted =
+            true;
+
+    }
+
+
+    if (nextWeatherVideo) {
+
+        nextWeatherVideo.muted =
+            true;
+
+    }
+
+
+    updateSoundButton();
+
+}
+
+
+/* =========================================================
+   SOUND BUTTON
+========================================================= */
+
+function updateSoundButton() {
+
+    if (!soundToggle) {
+        return;
+    }
+
+
+    if (weatherSoundEnabled) {
+
+        soundToggle.textContent =
+            "🔊";
+
+        soundToggle.setAttribute(
+            "aria-label",
+            "Mute background sound"
+        );
+
+        soundToggle.setAttribute(
+            "title",
+            "Mute background sound"
+        );
+
+    }
+
+    else {
+
+        soundToggle.textContent =
+            "🔇";
+
+        soundToggle.setAttribute(
+            "aria-label",
+            "Turn background sound on"
+        );
+
+        soundToggle.setAttribute(
+            "title",
+            "Turn background sound on"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FIRST USER INTERACTION
+========================================================= */
+
+document.addEventListener(
+    "pointerdown",
+    function (event) {
+
+        if (
+            soundToggle &&
+            soundToggle.contains(
+                event.target
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        /*
+         * We don't automatically enable
+         * sound here.
+         *
+         * Browser autoplay rules are strict.
+         */
+
+    }
 );
+
+
+/* =========================================================
+   SOUND BUTTON CLICK
+========================================================= */
+
+if (soundToggle) {
+
+    soundToggle.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            if (
+                weatherSoundEnabled
+            ) {
+
+                disableWeatherSound();
+
+            }
+
+            else {
+
+                enableWeatherSound();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CHANGE WEATHER VIDEO
+========================================================= */
+
+function changeWeatherVideo() {
+
+    if (
+        weatherIsChanging ||
+        !nextWeatherVideo ||
+        !activeWeatherVideo
+    ) {
+
+        return;
+
+    }
+
+
+    weatherIsChanging =
+        true;
+
+
+    /*
+     * Move to next video.
+     */
+
+    weatherIndex++;
+
+
+    /*
+     * Loop back to Background
+     * after Night.
+     */
+
+    if (
+        weatherIndex >=
+        weatherVideoFiles.length
+    ) {
+
+        weatherIndex =
+            0;
+
+    }
+
+
+    const nextVideoFile =
+        weatherVideoFiles[
+            weatherIndex
+        ];
+
+
+    console.log(
+        "Changing weather to:",
+        nextVideoFile
+    );
+
+
+    /*
+     * Prepare next video.
+     */
+
+    configureWeatherVideo(
+        nextWeatherVideo,
+        nextVideoFile
+    );
+
+
+    /*
+     * Keep next video muted initially.
+     *
+     * If user has already enabled
+     * sound, enable it when playback
+     * begins.
+     */
+
+    nextWeatherVideo.muted =
+        !weatherSoundEnabled;
+
+
+    nextWeatherVideo.volume =
+        0.65;
+
+
+    const transitionToNextVideo =
+        function () {
+
+            nextWeatherVideo.currentTime =
+                0;
+
+
+            nextWeatherVideo
+                .play()
+                .then(
+                    function () {
+
+                        /*
+                         * If sound is enabled,
+                         * the new video gets sound.
+                         */
+
+                        nextWeatherVideo.muted =
+                            !weatherSoundEnabled;
+
+
+                        nextWeatherVideo.volume =
+                            0.65;
+
+
+                        /*
+                         * Fade new video IN.
+                         */
+
+                        nextWeatherVideo.classList.add(
+                            "active"
+                        );
+
+
+                        /*
+                         * Fade old video OUT.
+                         */
+
+                        activeWeatherVideo.classList.remove(
+                            "active"
+                        );
+
+
+                        /*
+                         * Wait for CSS fade.
+                         */
+
+                        setTimeout(
+                            function () {
+
+                                /*
+                                 * Stop old video.
+                                 */
+
+                                activeWeatherVideo.pause();
+
+
+                                activeWeatherVideo.currentTime =
+                                    0;
+
+
+                                /*
+                                 * Swap video elements.
+                                 */
+
+                                const oldVideo =
+                                    activeWeatherVideo;
+
+
+                                activeWeatherVideo =
+                                    nextWeatherVideo;
+
+
+                                nextWeatherVideo =
+                                    oldVideo;
+
+
+                                /*
+                                 * Make sure new
+                                 * active video has
+                                 * correct sound.
+                                 */
+
+                                activeWeatherVideo.muted =
+                                    !weatherSoundEnabled;
+
+
+                                activeWeatherVideo.volume =
+                                    0.65;
+
+
+                                /*
+                                 * Transition finished.
+                                 */
+
+                                weatherIsChanging =
+                                    false;
+
+
+                                console.log(
+                                    "Weather changed successfully."
+                                );
+
+                            },
+                            1300
+                        );
+
+                    }
+                )
+                .catch(
+                    function (error) {
+
+                        console.error(
+                            "Weather video playback failed:",
+                            error
+                        );
+
+
+                        weatherIsChanging =
+                            false;
+
+                    }
+                );
+
+        };
+
+
+    /*
+     * Wait for video to be ready.
+     */
+
+    if (
+        nextWeatherVideo.readyState >=
+        2
+    ) {
+
+        transitionToNextVideo();
+
+    }
+
+    else {
+
+        nextWeatherVideo.addEventListener(
+            "loadeddata",
+            transitionToNextVideo,
+            {
+                once: true
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   WEATHER BUTTON
+========================================================= */
+
+if (weatherButton) {
+
+    weatherButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+
+            console.log(
+                "Change weather clicked"
+            );
+
+
+            changeWeatherVideo();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   START WEATHER SYSTEM
+========================================================= */
+
+startWeatherVideo();
+
+
+/* =========================================================
+   INITIAL SOUND BUTTON
+========================================================= */
+
+updateSoundButton();
+
+
+/* =========================================================
+   DEBUG
+========================================================= */
+
+console.log(
+    "India Through The Railway Window loaded."
+);
+
+console.log(
+    "Weather button:",
+    weatherButton
+);
+
+console.log(
+    "Weather video A:",
+    weatherVideoA
+);
+
+console.log(
+    "Weather video B:",
+    weatherVideoB
+);
+
+

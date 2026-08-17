@@ -1,100 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        India Through the Railway Window
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="Style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Through the Railway Window</title>
+    <link rel="stylesheet" href="Style.css">
 </head>
-
 
 <body>
 
+
+<!-- =====================================================
+     WEATHER VIDEO BACKGROUND
+====================================================== -->
+
+<div class="weather-background">
+
+    <video
+        id="weatherVideoA"
+        class="weather-video active"
+        muted
+        playsinline
+        preload="auto"
+    ></video>
+
+    <video
+        id="weatherVideoB"
+        class="weather-video"
+        muted
+        playsinline
+        preload="auto"
+    ></video>
+
+</div>
+
+<video
+    id="backgroundVideo"
+    class="background-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    aria-hidden="true"
+>
+    <source src="assets/background.mp4" type="video/mp4">
+</video>
+
+<div class="video-overlay"></div>
+
+<button
+    id="soundToggle"
+    class="sound-toggle"
+    type="button"
+    aria-label="Turn background sound on"
+    title="Turn background sound on"
+>
+    🔇
+</button>
+
 <main class="page">
 
-
-    <!-- =====================================================
-         TOP BAR
-    ====================================================== -->
-
     <header class="top-bar">
-
-
-        <!-- BUILD WITH US -->
 
         <button
             class="glass-button build-button"
             id="collaborateButton"
             type="button"
         >
-
-            <span class="button-icon">
-                +
-            </span>
-
-            <span>
-                Build with us
-            </span>
-
+            <span class="button-icon">+</span>
+            <span>Build with us</span>
         </button>
 
-
-
-        <!-- CENTER TITLE -->
-
         <div class="place-title">
-
-            <span class="place-name">
-                Uttarakhand
-            </span>
-
-            <span class="place-subtitle">
-                The Land of the Gods
-            </span>
-
+            <span class="place-name">Uttarakhand</span>
+            <span class="place-subtitle">The Land of the Gods</span>
         </div>
-
-
-
-        <!-- EXPLORE -->
 
         <button
             class="glass-button explore-button"
             id="exploreButton"
             type="button"
         >
-
-            <span>
-                Explore Uttarakhand
-            </span>
-
-            <span class="button-arrow">
-                ↗
-            </span>
-
+            <span>Explore Uttarakhand</span>
+            <span class="button-arrow">↗</span>
         </button>
 
     </header>
-
-
-
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
 
     <section class="hero">
 
@@ -106,14 +98,11 @@
                     DID YOU KNOW?
                 </div>
 
-
                 <h1>
                     Gateway to the Himalayas
                 </h1>
 
-
                 <p>
-
                     Uttarakhand is known as
                     <strong>Devbhoomi</strong>,
                     or the Land of the Gods.
@@ -121,20 +110,11 @@
                     Himalayan landscapes, ancient
                     temples and some of India's most
                     important pilgrimage routes.
-
                 </p>
 
-
                 <div class="card-footer">
-
-                    <span>
-                        UTTARAKHAND
-                    </span>
-
-                    <span>
-                        01
-                    </span>
-
+                    <span>UTTARAKHAND</span>
+                    <span>01</span>
                 </div>
 
             </div>
@@ -143,22 +123,10 @@
 
     </section>
 
-
-
-    <!-- =====================================================
-         TRAIN LAYER
-    ====================================================== -->
-
     <div
         class="train-layer"
         id="trainLayer"
     ></div>
-
-
-
-    <!-- =====================================================
-         EXPLORE MODAL
-    ====================================================== -->
 
     <div
         class="modal"
@@ -166,7 +134,6 @@
     >
 
         <div class="modal-card">
-
 
             <button
                 class="close-button"
@@ -177,18 +144,15 @@
                 ×
             </button>
 
-
             <div class="modal-header">
 
                 <div class="modal-label">
                     EXPLORE UTTARAKHAND
                 </div>
 
-
                 <h2>
                     Travel Places
                 </h2>
-
 
                 <p>
                     Discover beautiful destinations
@@ -199,260 +163,138 @@
 
             </div>
 
-
-
             <div class="places-grid">
-
-
-                <!-- NAINITAL -->
 
                 <button
                     class="place-card"
                     data-place="Nainital"
                     type="button"
                 >
-
-                    <div class="place-icon">
-                        ⌁
-                    </div>
+                    <div class="place-icon">⌁</div>
 
                     <div class="place-content">
-
-                        <h3>
-                            Nainital
-                        </h3>
-
+                        <h3>Nainital</h3>
                         <p>
                             The city of lakes, known for
                             Naini Lake and scenic mountain
                             views.
                         </p>
-
                     </div>
 
                     <div class="place-card-footer">
-
-                        <span>
-                            Explore
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
+                        <span>Explore</span>
+                        <span>→</span>
                     </div>
-
                 </button>
-
-
-
-                <!-- MUSSOORIE -->
 
                 <button
                     class="place-card"
                     data-place="Mussoorie"
                     type="button"
                 >
-
-                    <div class="place-icon">
-                        ⌂
-                    </div>
+                    <div class="place-icon">⌂</div>
 
                     <div class="place-content">
-
-                        <h3>
-                            Mussoorie
-                        </h3>
-
+                        <h3>Mussoorie</h3>
                         <p>
                             The Queen of Hills, famous
                             for its views, forests and
                             pleasant climate.
                         </p>
-
                     </div>
 
                     <div class="place-card-footer">
-
-                        <span>
-                            Explore
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
+                        <span>Explore</span>
+                        <span>→</span>
                     </div>
-
                 </button>
-
-
-
-                <!-- KAINCHI DHAM -->
 
                 <button
                     class="place-card"
                     data-place="Kainchi Dham"
                     type="button"
                 >
-
-                    <div class="place-icon">
-                        ✦
-                    </div>
+                    <div class="place-icon">✦</div>
 
                     <div class="place-content">
-
-                        <h3>
-                            Kainchi Dham
-                        </h3>
-
+                        <h3>Kainchi Dham</h3>
                         <p>
                             A peaceful spiritual retreat
                             nestled in the mountains
                             near Nainital.
                         </p>
-
                     </div>
 
                     <div class="place-card-footer">
-
-                        <span>
-                            Explore
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
+                        <span>Explore</span>
+                        <span>→</span>
                     </div>
-
                 </button>
-
-
-
-                <!-- RISHIKESH -->
 
                 <button
                     class="place-card"
                     data-place="Rishikesh"
                     type="button"
                 >
-
-                    <div class="place-icon">
-                        ◌
-                    </div>
+                    <div class="place-icon">◌</div>
 
                     <div class="place-content">
-
-                        <h3>
-                            Rishikesh
-                        </h3>
-
+                        <h3>Rishikesh</h3>
                         <p>
                             The Yoga Capital of the World,
                             surrounded by the Ganges,
                             spirituality and adventure.
                         </p>
-
                     </div>
 
                     <div class="place-card-footer">
-
-                        <span>
-                            Explore
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
+                        <span>Explore</span>
+                        <span>→</span>
                     </div>
-
                 </button>
-
-
-
-                <!-- AULI -->
 
                 <button
                     class="place-card"
                     data-place="Auli"
                     type="button"
                 >
-
-                    <div class="place-icon">
-                        ⌃
-                    </div>
+                    <div class="place-icon">⌃</div>
 
                     <div class="place-content">
-
-                        <h3>
-                            Auli
-                        </h3>
-
+                        <h3>Auli</h3>
                         <p>
                             Famous for skiing, snow and
                             breathtaking Himalayan views.
                         </p>
-
                     </div>
 
                     <div class="place-card-footer">
-
-                        <span>
-                            Explore
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
+                        <span>Explore</span>
+                        <span>→</span>
                     </div>
-
                 </button>
-
-
-
-                <!-- BADRINATH -->
 
                 <button
                     class="place-card"
                     data-place="Badrinath"
                     type="button"
                 >
-
-                    <div class="place-icon">
-                        ✦
-                    </div>
+                    <div class="place-icon">✦</div>
 
                     <div class="place-content">
-
-                        <h3>
-                            Badrinath
-                        </h3>
-
+                        <h3>Badrinath</h3>
                         <p>
                             One of the Char Dham and
                             one of the most sacred
                             pilgrimage sites in the Himalayas.
                         </p>
-
                     </div>
 
                     <div class="place-card-footer">
-
-                        <span>
-                            Explore
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
+                        <span>Explore</span>
+                        <span>→</span>
                     </div>
-
                 </button>
-
 
             </div>
 
@@ -460,19 +302,12 @@
 
     </div>
 
-
-
-    <!-- =====================================================
-         BUILD WITH US MODAL
-    ====================================================== -->
-
     <div
         class="modal"
         id="collaborationModal"
     >
 
         <div class="creator-modal">
-
 
             <button
                 class="close-button"
@@ -483,19 +318,15 @@
                 ×
             </button>
 
-
-
             <div class="modal-header">
 
                 <div class="modal-label">
                     COMMUNITY
                 </div>
 
-
                 <h2>
                     Build with us
                 </h2>
-
 
                 <p>
                     Explore experiences created by
@@ -505,49 +336,23 @@
 
             </div>
 
-
-
-            <!-- =================================================
-                 CREATOR LIST
-            ================================================== -->
-
             <div
                 class="creator-list"
                 id="creatorList"
-            >
-
-            </div>
-
-
-
-            <!-- =================================================
-                 ADD WEBSITE
-            ================================================== -->
+            ></div>
 
             <button
                 class="add-project-button"
                 id="addProjectButton"
                 type="button"
             >
-
-                <span>
-                    +
-                </span>
-
+                <span>+</span>
                 Submit your website
-
             </button>
-
 
         </div>
 
     </div>
-
-
-
-    <!-- =====================================================
-         ADD WEBSITE MODAL
-    ====================================================== -->
 
     <div
         class="modal"
@@ -555,9 +360,6 @@
     >
 
         <div class="add-website-modal">
-
-
-            <!-- CLOSE -->
 
             <button
                 class="close-button"
@@ -568,21 +370,15 @@
                 ×
             </button>
 
-
-
-            <!-- HEADER -->
-
             <div class="modal-header">
 
                 <div class="modal-label">
                     COMMUNITY PROJECT
                 </div>
 
-
                 <h2>
                     Submit your website
                 </h2>
-
 
                 <p>
                     Share something you have built.
@@ -593,26 +389,15 @@
 
             </div>
 
-
-
-            <!-- =================================================
-                 FORM
-            ================================================== -->
-
             <form
                 id="websiteForm"
                 class="website-form"
             >
 
-
-                <!-- NAME -->
-
                 <div class="form-field">
-
                     <label for="creatorName">
                         Name
                     </label>
-
 
                     <input
                         type="text"
@@ -622,19 +407,12 @@
                         autocomplete="name"
                         required
                     >
-
                 </div>
 
-
-
-                <!-- DESCRIPTION -->
-
                 <div class="form-field">
-
                     <label for="websiteDescription">
                         Describe your website
                     </label>
-
 
                     <textarea
                         id="websiteDescription"
@@ -643,19 +421,12 @@
                         rows="4"
                         required
                     ></textarea>
-
                 </div>
 
-
-
-                <!-- URL -->
-
                 <div class="form-field">
-
                     <label for="websiteURL">
                         Website URL
                     </label>
-
 
                     <input
                         type="url"
@@ -665,12 +436,7 @@
                         autocomplete="url"
                         required
                     >
-
                 </div>
-
-
-
-                <!-- AGREEMENT -->
 
                 <label class="agreement-row">
 
@@ -688,32 +454,18 @@
 
                 </label>
 
-
-
-                <!-- ERROR -->
-
                 <div
                     class="form-error"
                     id="formError"
                 ></div>
 
-
-
-                <!-- SUBMIT -->
-
                 <button
                     type="submit"
                     class="submit-website-button"
                 >
-
                     Submit for review
-
-                    <span>
-                        →
-                    </span>
-
+                    <span>→</span>
                 </button>
-
 
             </form>
 
@@ -721,36 +473,53 @@
 
     </div>
 
-
-
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-
     <footer class="footer">
 
         <span>
             INDIA THROUGH THE RAILWAY WINDOW
         </span>
 
-
         <div class="footer-train">
             ▣
         </div>
-
 
         <span>
             2026
         </span>
 
     </footer>
+<!-- =====================================================
+     CHANGE WEATHER BUTTON
+====================================================== -->
 
+<div class="weather-control">
+
+    <button
+        id="weatherButton"
+        class="weather-button"
+        type="button"
+        aria-label="Change weather"
+    >
+
+        <span class="weather-button-icon">
+            ☁
+        </span>
+
+        <span class="weather-button-text">
+            Change weather
+        </span>
+
+        <span class="weather-button-arrow">
+            ↗
+        </span>
+
+    </button>
+
+</div>
 
 </main>
-
 
 <script src="script.js"></script>
 
 </body>
-
 </html>
