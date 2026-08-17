@@ -1218,21 +1218,23 @@ function createProjectCard(
         "creator-meta";
 
 
-    const likes =
-        document.createElement(
-            "span"
-        );
+    /* ---------- People Visited ---------- */
 
+const likes =
+    document.createElement(
+        "span"
+    );
 
-    likes.className =
-        "likes";
+likes.className =
+    "likes";
 
-
-    likes.textContent =
-        "♥ " +
-        formatNumber(
-            project.likes
-        );
+likes.textContent =
+    "People visited " +
+    formatNumber(
+        project.visits !== undefined
+            ? project.visits
+            : project.likes
+    );
 
 
     const category =
@@ -1300,32 +1302,185 @@ function createProjectCard(
 
 
     card.addEventListener(
-        "click",
-        function () {
+    "click",
+    function () {
 
-            if (
-                !project.url ||
-                project.url === "#"
-            ) {
+        if (
+            !project.url ||
+            project.url === "#"
+        ) {
 
-                return;
-
-            }
-
-
-            openCreatorWebsite(
-                project.url
-            );
+            return;
 
         }
-    );
+
+
+        /* =================================================
+           INSTANTLY INCREASE VISIT NUMBER
+        ================================================= */
+
+        const currentVisits =
+            Number(
+                project.visits !== undefined
+                    ? project.visits
+                    : project.likes
+            ) || 0;
+
+
+        const newVisits =
+            currentVisits + 1;
+
+
+        project.visits =
+            newVisits;
+
+
+        /* =================================================
+           UPDATE NUMBER ON SCREEN IMMEDIATELY
+        ================================================= */
+
+        likes.textContent =
+            "People visited " +
+            formatNumber(
+                newVisits
+            );
+
+
+        /* =================================================
+           SEND VISIT TO GOOGLE SHEETS
+        ================================================= */
+
+        recordWebsiteVisit(
+            project.id
+        );
+
+
+        /* =================================================
+           OPEN WEBSITE
+        ================================================= */
+
+        openCreatorWebsite(
+            project.url
+        );
+
+    }
+);
 
 
     return card;
 
 }
 
+/* =========================================================
+   RECORD WEBSITE VISIT
+   GOOGLE SHEETS
+========================================================= */
 
+function recordWebsiteVisit(
+    projectId
+) {
+
+    if (!projectId) {
+
+        console.error(
+            "No project ID available for visit tracking."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const params =
+            new URLSearchParams();
+
+
+        params.append(
+            "action",
+            "visit"
+        );
+
+
+        params.append(
+            "projectId",
+            projectId
+        );
+
+
+        const requestURL =
+            GOOGLE_SHEET_API +
+            "?" +
+            params.toString();
+
+
+        console.log(
+            "Recording visit:",
+            projectId
+        );
+
+
+        /* =================================================
+           KEEP REQUEST ALIVE WHILE PAGE NAVIGATES
+        ================================================= */
+
+        fetch(
+            requestURL,
+            {
+                method: "GET",
+                cache: "no-store",
+                keepalive: true
+            }
+        )
+        .then(
+            function (response) {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Visit request failed."
+                    );
+
+                }
+
+                return response.json();
+
+            }
+        )
+        .then(
+            function (result) {
+
+                console.log(
+                    "Visit recorded:",
+                    result
+                );
+
+            }
+        )
+        .catch(
+            function (error) {
+
+                console.error(
+                    "Could not record visit:",
+                    error
+                );
+
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Visit tracking error:",
+            error
+        );
+
+    }
+
+}
 /* =========================================================
    FORMAT NUMBER
 ========================================================= */
@@ -2255,5 +2410,3 @@ console.log(
     "Weather video B:",
     weatherVideoB
 );
-
-
